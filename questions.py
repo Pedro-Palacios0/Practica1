@@ -1,22 +1,21 @@
 import random
 
-words = [
-    "python",
-    "programa",
-    "variable",
-    "funcion",
-    "bucle",
-    "cadena",
-    "entero",
-    "lista",
-]
-
-word = random.choice(words)
-guessed = []
-attempts = 6
+diccionario = {
+    "programacion" : ["python", "programa", "lista", "variable", "funcion"],
+    "animales" : ["gato", "perro", "cebra", "leon"],
+    "materias" : ["fod", "ayed", "seminario", "matematica"]}
 
 print("¡Bienvenido al Ahorcado!")
 print()
+print("Categorias disponibles")
+for categorias in diccionario:
+    print(f"- {categorias}", end="")
+print()
+cat_elegida = input("Eliga una categoria: ").lower()
+words = diccionario[cat_elegida]
+word = random.choice(words)
+guessed = []
+attempts = 6
 
 while attempts > 0:
     # Mostrar progreso: letras adivinadas y guiones para las que faltan
@@ -52,8 +51,5 @@ while attempts > 0:
 else:
     print(f"¡Perdiste! La palabra era: {word}")
     gano = False
-if gano:
-    puntaje = attempts
-else:
-    puntaje = 0
+puntaje = attempts if gano else 0
 print(f"Tu puntaje es: {puntaje}" )
