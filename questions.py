@@ -11,45 +11,59 @@ print("Categorias disponibles")
 for categorias in diccionario:
     print(f"- {categorias}", end="")
 print()
-cat_elegida = input("Eliga una categoria: ").lower()
-words = diccionario[cat_elegida]
-word = random.choice(words)
-guessed = []
-attempts = 6
-
-while attempts > 0:
-    # Mostrar progreso: letras adivinadas y guiones para las que faltan
-    progress = ""
-    for letter in word:
-        if letter in guessed:
-            progress += letter + " "
-        else:
-            progress += "_ "
-    print(progress)
-# Verificar si el jugador ya adivinó la palabra completa
-    if "_" not in progress:
-        print("¡Ganaste!")
-        gano = True
-        break
-    print(f"Intentos restantes: {attempts}")
-    print(f"Letras usadas: {', '.join(guessed)}")
-    
-    letter = input("Ingresá una letra: ").lower()
-    
-    if len(letter) != 1 or not letter.isalpha():
-        print("Entrada no valida.")
-    elif letter in guessed:
-        print("Ya usaste esa letra.")
-    elif letter in word:
-        guessed.append(letter)
-        print("¡Bien! Esa letra está en la palabra.")
+eligio = False
+while not eligio:
+    cat_elegida = input("Eliga una categoria: ").lower()
+    if cat_elegida in diccionario:  
+        words = diccionario[cat_elegida]
+        lista= random.sample(words, len(words))
+        eligio = True
     else:
-        guessed.append(letter)
-        attempts -= 1
-        print("Esa letra no está en la palabra.")
-    print()
-else:
-    print(f"¡Perdiste! La palabra era: {word}")
+        print("Categoria no valida, vuelva a elegir.")
+
+puntaje_total = 0
+for word in lista:
+    print("Arranca la ronda!!!")
+    guessed = []
+    attempts = 6
     gano = False
-puntaje = attempts if gano else 0
-print(f"Tu puntaje es: {puntaje}" )
+    puntaje_ronda = 0
+    while attempts > 0:
+        # Mostrar progreso: letras adivinadas y guiones para las que faltan
+        progress = ""
+        for letter in word:
+            if letter in guessed:
+                progress += letter + " "
+            else:
+                progress += "_ "
+        print(progress)
+    # Verificar si el jugador ya adivinó la palabra completa
+        if "_" not in progress:
+            print("¡Ganaste!")
+            gano = True
+            puntaje_ronda += 6
+            break
+        print(f"Intentos restantes: {attempts}")
+        print(f"Letras usadas: {', '.join(guessed)}")
+        
+        letter = input("Ingresá una letra: ").lower()
+        
+        if len(letter) != 1 or not letter.isalpha():
+            print("Entrada no valida.")
+        elif letter in guessed:
+            print("Ya usaste esa letra.")
+        elif letter in word:
+            guessed.append(letter)
+            print("¡Bien! Esa letra está en la palabra.")
+        else:
+            guessed.append(letter)
+            attempts -= 1
+            puntaje_ronda -= 1
+            print("Esa letra no está en la palabra.")
+        print()
+    else:
+        print(f"¡Perdiste! La palabra era: {word}")
+        puntaje_ronda = 0
+    puntaje_total += puntaje_ronda
+    print(f"Tu puntaje en la ronda fue: {puntaje_ronda}" )
+print(f"Tu puntaje total fue de: {puntaje_total}")
